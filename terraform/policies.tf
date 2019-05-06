@@ -21,3 +21,16 @@ data "aws_iam_policy_document" "policy_gateway_admin" {
     resources = ["*"]
   }
 }
+
+data "aws_iam_policy_document" "policy_website_role" {
+ statement {
+   effect = "Allow"
+   principals {
+     type = "Service"
+     identifiers = ["lambda.amazonaws.com"]
+   }
+   actions = [
+     "sts:AssumeRole"
+   ]
+ }
+}
