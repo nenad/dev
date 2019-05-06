@@ -1,2 +1,4 @@
 .terraform
 *.tfstate*
+website.zip
+website
