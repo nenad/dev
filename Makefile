@@ -1,4 +1,4 @@
-.PHONY: install
+.PHONY: build
 build:
 	GOOS=linux GOARCH=amd64 go build -o website main.go
 
@@ -12,4 +12,7 @@ install:
 	@$(MAKE) -s package
 	@mv website.zip terraform/website.zip
 
-# TODO Add lambda update target
+.PHONY: update-lambda
+update-lambda:
+	@$(MAKE) install
+	aws lambda update-function-code --function-name handle_request --zip-file "fileb:///$(shell pwd)/terraform/website.zip"
