@@ -14,5 +14,6 @@ resource "aws_iam_user_group_membership" "website_nenad_dev" {
 }
 
 resource "aws_iam_role" "website_role" {
+  name               = "website_role"
   assume_role_policy = "${data.aws_iam_policy_document.policy_website_role.json}"
 }
