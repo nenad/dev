@@ -2,21 +2,37 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
+	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"log"
 )
 
 type MyEvent struct {
 	Name string `json:"name"`
 }
 
-func HandleRequest(ctx context.Context, name MyEvent) (string, error) {
-	log.Printf("logged request with query: %s", name.Name)
-	log.Printf("context: %+v", ctx)
-	return fmt.Sprintf("Hello %s!", name.Name), nil
+func HandleRequest(ctx context.Context, name MyEvent) (events.APIGatewayProxyResponse, error) {
+	resp := events.APIGatewayProxyResponse{
+		Body: fmt.Sprintf("<html><head><title>Hello %s</title></head><body><h1>WORKS!</h1></body></html>", name.Name),
+		Headers: map[string]string{
+			"Content-Type": "text/html",
+		},
+		StatusCode: 200,
+	}
+
+	return resp, nil
 }
 
 func main() {
-	lambda.Start(HandleRequest)
+	isCLI := flag.Bool("cli", false, "Run it in CLI instead of lambda")
+	flag.Parse()
+
+	if !*isCLI {
+		lambda.Start(HandleRequest)
+		return
+	}
+
+	response, _ := HandleRequest(context.Background(), MyEvent{Name:"Nenad"})
+	fmt.Println(response)
 }
