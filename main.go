@@ -4,17 +4,26 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"log"
+
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
-type MyEvent struct {
-	Name string `json:"name"`
-}
+// HandleRequest responds to a request from lambda
+func HandleRequest(ctx context.Context) (events.APIGatewayProxyResponse, error) {
+	html, err := getHTML(struct {
+		Name string
+	}{
+		Name: "Nenad",
+	})
 
-func HandleRequest(ctx context.Context, name MyEvent) (events.APIGatewayProxyResponse, error) {
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	resp := events.APIGatewayProxyResponse{
-		Body: fmt.Sprintf("<html><head><title>Hello %s</title></head><body><h1>WORKS!</h1></body></html>", name.Name),
+		Body: html,
 		Headers: map[string]string{
 			"Content-Type": "text/html",
 		},
@@ -33,6 +42,6 @@ func main() {
 		return
 	}
 
-	response, _ := HandleRequest(context.Background(), MyEvent{Name:"Nenad"})
+	response, _ := HandleRequest(context.Background())
 	fmt.Println(response)
 }

@@ -1,10 +1,10 @@
 .PHONY: build
 build:
-	GOOS=linux GOARCH=amd64 go build -o website main.go
+	GOOS=linux GOARCH=amd64 go build -o website
 
 .PHONY: package
 package:
-	zip -r website.zip website
+	zip -r website.zip website templates
 
 .PHONY: install
 install:
