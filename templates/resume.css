@@ -1,3 +1,22 @@
 html {
-    background-color: #dddddd;
+    background-color: black;
+    color: whitesmoke;
+    font-family: monospace;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+/* unvisited link */
+a:link, a:visited, a:hover, a:active{
+    color: darkcyan;
+    text-decoration: none;
+}
+
+.header {
+    color: gray;
 }
