@@ -26,6 +26,13 @@ func HandleRequest(ctx context.Context) (events.APIGatewayProxyResponse, error) 
 		Body: html,
 		Headers: map[string]string{
 			"Content-Type": "text/html",
+			"Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+			"Content-Security-Policy": "default-src *; img-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; form-action 'none'; base-uri 'self'; frame-ancestors 'self'",
+			"X-Frame-Options": "SAMEORIGIN",
+			"X-XSS-Protection": "1; mode=block",
+			"X-Content-Type-Options": "nosniff",
+			"Referrer-Policy": "same-origin",
+			"Feature-Policy": "accelerometer 'none';ambient-light-sensor 'none';autoplay 'none';camera 'none';encrypted-media 'none';fullscreen 'self';geolocation 'self';gyroscope 'none';magnetometer 'none';microphone 'none';midi 'none';payment 'self';picture-in-picture 'none';speaker 'self';sync-xhr 'none';usb 'none';vibrate 'none';vr 'none';",
 		},
 		StatusCode: 200,
 	}
